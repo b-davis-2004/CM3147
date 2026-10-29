@@ -4,13 +4,18 @@ coreKtx = "1.10.1"
 junit = "4.13.2"
 junitVersion = "1.1.5"
 espressoCore = "3.5.1"
+kandyLetsPlot = "0.8.3"
 lifecycleRuntimeKtx = "2.6.1"
 activityCompose = "1.8.0"
 kotlin = "2.2.10"
 composeBom = "2025.12.00"
 dataframe = "0.15.0"
+kandy = "0.8.6" # Unified to the latest version
 
 [libraries]
+# Use a flat name without internal dashes to create a straight accessor
+kandy = { module = "org.jetbrains.kotlinx:kandy-lets-plot", version.ref = "kandy" }
+kandy-lets-plot-v083 = { module = "org.jetbrains.kotlinx:kandy-lets-plot", version.ref = "kandyLetsPlot" }
 kotlinx-dataframe-core = { group = "org.jetbrains.kotlinx", name = "dataframe-core", version.ref = "dataframe" }
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }
@@ -31,4 +36,3 @@ androidx-compose-material3-adaptive-navigation-suite = { group = "androidx.compo
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
 kotlin-compose = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
-

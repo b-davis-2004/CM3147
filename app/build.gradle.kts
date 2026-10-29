@@ -48,6 +48,8 @@ android {
 }
 
 dependencies {
+    implementation(libs.kandy.lets.plot.v083)
+   // implementation(libs.kandy)
     implementation(libs.kotlinx.dataframe.core)
     implementation(platform(libs.androidx.compose.bom))
     implementation(libs.androidx.activity.compose)
