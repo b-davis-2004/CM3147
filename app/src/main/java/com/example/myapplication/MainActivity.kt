@@ -9,7 +9,6 @@ import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Icon
@@ -72,11 +71,6 @@ fun MyApplicationApp() {
            PieChart(
                 modifier = Modifier.padding(innerPadding)
             )
-            DiaperImage(
-                modifier = Modifier.padding(innerPadding)
-            )
-
-
         }
     }
 }
@@ -89,28 +83,6 @@ enum class AppDestinations(
     FAVORITES("Favorites", R.drawable.ic_favorite),
     PROFILE("Profile", R.drawable.ic_account_box),
 }
-
-
-@Composable
-fun DiaperImage(modifier: Modifier = Modifier) {
-    val image = painterResource(R.drawable.donut)
-    Image(
-        painter = image,
-        contentDescription = null,
-        modifier = modifier
-    )
-}
-
-
-/*@Preview(showBackground = true)
-@Composable
-fun DiaperPreview() {
-    MyApplicationTheme {
-        DiaperImage()
-    }
-}
-*/
-
 
 @Composable
 fun PieChart(modifier: Modifier = Modifier) {
@@ -160,34 +132,21 @@ fun PieChart(modifier: Modifier = Modifier) {
                 startAngle += sweepAngle
             }
         }
+        //populating diaper image inside of pie chart
+        Image(
+            painter = painterResource(R.drawable.donut),
+            contentDescription = "Donut Image",
+            modifier = Modifier.size(120.dp)
+        )
     }
 }
 
 @Preview(showBackground = true)
 @Composable
 fun ShowPie() {
-    MyApplicationTheme() {
+    MyApplicationTheme {
         PieChart(
            // modifier = Modifier.offset(x = 80.dp, y = 60.dp)
         )
     }
 }
-
-
-/*
-@Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
-    Text(
-        text = "Hello $name!",
-        modifier = modifier
-    )
-}
-
-@Preview(showBackground = true)
-@Composable
-fun GreetingPreview() {
-    MyApplicationTheme {
-        Greeting("Android")
-    }
-}
-*/
