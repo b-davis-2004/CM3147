@@ -25,15 +25,17 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.adaptive.navigationsuite.NavigationSuiteScaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
@@ -42,8 +44,10 @@ import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.drawscope.Stroke
+import androidx.compose.ui.input.pointer.motionEventSpy
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewScreenSizes
 import androidx.compose.ui.unit.dp
@@ -101,13 +105,32 @@ fun MyApplicationApp() {
             }
         }
     ) {
-        Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
+        Scaffold(
+            modifier = Modifier.fillMaxSize(),
+            topBar = {
+                AppBar(
+                    title = { Text(currentDestination.label) }
+                )
+                Spacer(Modifier.height(20.dp))
+            }
+        ) { innerPadding ->
             when (currentDestination) {
                 AppDestinations.HOME -> {
-                    PieChart(
-                        inventory = inventoryItems,
-                        modifier = Modifier.padding(innerPadding)
-                    )
+                    Column(
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .padding(innerPadding)
+                            .padding(top = 16.dp, start = 16.dp, end = 16.dp),
+                        horizontalAlignment = Alignment.CenterHorizontally,
+                        verticalArrangement = Arrangement.Top
+                    ) {
+                        FilledCardExample()
+                        Spacer(modifier = Modifier.height(30.dp))
+                        PieChart(
+                            inventory = inventoryItems,
+                            modifier = Modifier.fillMaxWidth()
+                        )
+                    }
                 }
                 AppDestinations.INVENTORY -> {
                     InventoryEditScreen(
@@ -129,6 +152,24 @@ fun MyApplicationApp() {
                     }
                 }
             }
+        }
+    }
+}
+
+@Composable
+fun AppBar(title: @Composable () -> Unit, modifier: Modifier = Modifier) {
+    Surface(
+        modifier = modifier.fillMaxWidth(),
+        color = MaterialTheme.colorScheme.surface,
+        tonalElevation = 3.dp
+    ) {
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 16.dp, vertical = 14.dp),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            title()
         }
     }
 }
@@ -168,7 +209,7 @@ fun PieChart(
     )
 
     Column(
-        modifier = modifier.fillMaxSize(),
+        modifier = modifier,
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
     ) {
@@ -296,20 +337,33 @@ fun InventoryEditScreen(
     }
 }
 
+@Composable
+fun FilledCardExample(modifier: Modifier = Modifier) {
+    Card(
+        colors = CardDefaults.cardColors(
+            containerColor = MaterialTheme.colorScheme.surfaceVariant,
+        ),
+        modifier = modifier
+            .size(width = 300.dp, height = 175.dp)
+    ) {
+        Box(
+            modifier = Modifier.fillMaxSize(),
+            contentAlignment = Alignment.Center
+        ) {
+            Text(
+                text = "Filled",
+                textAlign = TextAlign.Center
+            )
+        }
+    }
+}
+
 @Preview(showBackground = true)
 @Composable
 fun ShowPie() {
     MyApplicationTheme {
         PieChart(
-            inventory = listOf(
-                InventoryItem("Diapers- Size 1", 200, 500),
-                InventoryItem("Diapers- Size 2", 300, 600),
-                InventoryItem("Diapers- Size 3", 100, 400),
-                InventoryItem("Newborn Onesies", 25, 25),
-                InventoryItem("0-3 Month Onesies", 10, 25),
-                InventoryItem("Bottles", 12, 12),
-                InventoryItem("Pacifiers", 5, 10)
-            )
+            inventory = listOf()
         )
     }
 }
