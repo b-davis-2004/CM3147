@@ -65,6 +65,7 @@ class MainActivity : ComponentActivity() {
     }
 }
 
+//defining Inventory data types for stock
 data class InventoryItem(
     val name: String,
     val have: Int,
@@ -74,6 +75,7 @@ data class InventoryItem(
 @PreviewScreenSizes
 @Composable
 fun MyApplicationApp() {
+    //creating saveable inventory list
     var currentDestination by rememberSaveable { mutableStateOf(AppDestinations.HOME) }
 
     val inventoryItems = remember {
@@ -105,6 +107,8 @@ fun MyApplicationApp() {
             }
         }
     ) {
+        //Formatting spacing and alignment for the composables
+        // relative to themselves and the screen
         Scaffold(
             modifier = Modifier.fillMaxSize(),
             topBar = {
@@ -156,6 +160,7 @@ fun MyApplicationApp() {
     }
 }
 
+//Top bar - non-navigational
 @Composable
 fun AppBar(title: @Composable () -> Unit, modifier: Modifier = Modifier) {
     Surface(
@@ -174,6 +179,7 @@ fun AppBar(title: @Composable () -> Unit, modifier: Modifier = Modifier) {
     }
 }
 
+//attaching icons to navigation bar options
 enum class AppDestinations(
     val label: String,
     val icon: Int,
@@ -183,11 +189,14 @@ enum class AppDestinations(
     PROFILE("Profile", R.drawable.ic_account_box),
 }
 
+//Stock Pie chart
 @Composable
 fun PieChart(
     inventory: List<InventoryItem>,
     modifier: Modifier = Modifier
 ) {
+    //creating ratio of Items needed to Items possessed
+    //defines Need vs Stock for the pie chart
     val totalNeed = inventory.sumOf { it.need }.toFloat()
     val totalHave = inventory.sumOf { minOf(it.have, it.need) }.toFloat()
 
@@ -203,11 +212,14 @@ fun PieChart(
         Pair("Needed", neededRatio)
     )
 
+    //colors of pie chart
     val sliceColors = listOf(
-        Color(0xFF64CFC9), // Teal for Stock (Have)
-        Color(0xFF8F8B8B)  // Gray for Needed
+        Color(0xFF64CFC9),
+        Color(0xFF8F8B8B)
     )
 
+    //formatting specific to pie chart
+    //i.e. arc, angle, etc
     Column(
         modifier = modifier,
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -245,9 +257,10 @@ fun PieChart(
                     }
                 }
             }
+            //puts the diaper image in the center of the chart
             Image(
                 painter = painterResource(R.drawable.donut),
-                contentDescription = "Donut Image",
+                contentDescription = "Diaper Image",
                 modifier = Modifier.size(120.dp)
             )
         }
@@ -258,6 +271,7 @@ fun PieChart(
     }
 }
 
+//Legend key for donut chart
 @Composable
 fun ChartLegend() {
     Row(
@@ -282,6 +296,7 @@ fun LegendItem(color: Color, label: String) {
     }
 }
 
+//Inventory Screen
 @Composable
 fun InventoryEditScreen(
     inventory: List<InventoryItem>,
@@ -306,6 +321,7 @@ fun InventoryEditScreen(
                         modifier = Modifier.fillMaxWidth(),
                         verticalAlignment = Alignment.CenterVertically
                     ) {
+                        //allows user input to alter quantity of stock
                         OutlinedTextField(
                             value = item.have.toString(),
                             onValueChange = { newValue ->
@@ -313,11 +329,13 @@ fun InventoryEditScreen(
                                 onUpdateItem(index, item.copy(have = haveVal))
                             },
                             label = { Text("Have") },
+                            //allows only number
                             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
                             modifier = Modifier
                                 .weight(1f)
                                 .padding(end = 8.dp)
                         )
+                        //repeats functionality as 'have' field
                         OutlinedTextField(
                             value = item.need.toString(),
                             onValueChange = { newValue ->
@@ -337,6 +355,7 @@ fun InventoryEditScreen(
     }
 }
 
+//Card intended to be used for information and greeting to user
 @Composable
 fun FilledCardExample(modifier: Modifier = Modifier) {
     Card(
@@ -367,3 +386,7 @@ fun ShowPie() {
         )
     }
 }
+
+
+//https://api.api-ninjas.com/v1/babynames
+//saving Api for later :)
