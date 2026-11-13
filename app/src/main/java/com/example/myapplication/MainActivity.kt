@@ -44,7 +44,6 @@ import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.drawscope.Stroke
-import androidx.compose.ui.input.pointer.motionEventSpy
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
@@ -115,7 +114,6 @@ fun MyApplicationApp() {
                 AppBar(
                     title = { Text(currentDestination.label) }
                 )
-                Spacer(Modifier.height(20.dp))
             }
         ) { innerPadding ->
             when (currentDestination) {
@@ -126,10 +124,9 @@ fun MyApplicationApp() {
                             .padding(innerPadding)
                             .padding(top = 16.dp, start = 16.dp, end = 16.dp),
                         horizontalAlignment = Alignment.CenterHorizontally,
-                        verticalArrangement = Arrangement.Top
+                        verticalArrangement = Arrangement.SpaceEvenly
                     ) {
                         FilledCardExample()
-                        Spacer(modifier = Modifier.height(30.dp))
                         PieChart(
                             inventory = inventoryItems,
                             modifier = Modifier.fillMaxWidth()
